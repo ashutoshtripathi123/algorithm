@@ -5,16 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/*
+ * The function evaluationFileParser opens the file TNH_Evaluation_Data.csv to read actual sensor values
+ * We take only the sensor reading, and ignore the time stamp in current implementation
+ * We take 10 consecutive values, average it out, and check :
+ *               if the value is < 33.3, we assign 'a'
+ *               if the value is < 66.6, we assign 'b'
+ *               else 'c'
+ * After performing the SAX reduction, we check for nearest neighbor match, taking the training data for reference,
+ * If the percentage/weightage found to be more than 50%, we pronounce it to be a startup event.
+ * Line numbers are accessible by multiplying the counter value with 10, as each reduced variable is average of 10                
+ * */
 public class EvaluationParser {
 	void evaluationFileParser() throws FileNotFoundException
 	{
-		//System.out.println("Under Construction");
 		TrainingParser checklist;
 		Scanner scanner2 = new Scanner(new File("TNH_Evaluation_Data.csv"));
 		Scanner scanner3 = new Scanner(scanner2.nextLine());
 		StringBuilder tempStarter= new StringBuilder("");
 		String line;
-		//scanner2.nextLine();
 		List<String> str1 = new ArrayList<String>();
 		List<Float> sensorVal = new ArrayList<Float>();
 		int i=0, avgCount=0;
@@ -22,10 +31,8 @@ public class EvaluationParser {
         while(scanner2.hasNextLine() )
         {
 			line = scanner2.nextLine();
-			//System.out.println(line);
 			scanner3 = new Scanner(line);
 			scanner3.useDelimiter(",");
-			//System.out.println(scanner3.next());
 			scanner3.next();
 			float val = Float.parseFloat(scanner3.next());
 			sensorVal.add(val);
@@ -52,10 +59,11 @@ public class EvaluationParser {
 
 			++i;
         }
+        
 		//System.out.println(sensorVal);
 		//System.out.println(tempStarter);
-		System.out.println(tempStarter.length());
-		System.out.println(tempStarter);
+		//System.out.println(tempStarter.length());
+		//System.out.println(tempStarter);
         
         //Start from index 0, check 0 and 5, if they are a and c, then it means its a start up, else
 		// start from index 5+1
@@ -64,7 +72,7 @@ public class EvaluationParser {
 		{
 			if(tempStarter.charAt(counter) == 'a' && tempStarter.charAt(counter+5) == 'c')
 			{
-				System.out.println("STARTUP DETECTED !!!" + counter);
+				System.out.println("STARTUP DETECTED at line #" + counter*10);
 			}
 			counter=counter+5;
 		}

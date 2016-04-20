@@ -7,12 +7,24 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TrainingParser {
+	
+	/* Lists containing data obtained from training, will be used by EvaluationParser
+	 * While computing the kNN algorithm, to find nearest neighbor
+	*/
 	List<String> startUps = new ArrayList<String>();
 	List<String> shutDowns = new ArrayList<String>();
+	
+	/*
+	 * The function trainingFileParser, opens the TNH_Training_Data.csv file, extracts the sensor value,
+	 * We take 10 consecutive values, average it out, and check :
+	 *               if the value is < 33.3, we assign 'a'
+	 *               if the value is < 66.6, we assign 'b'
+	 *               else 'c'
+	 * After performing the CAX reduction, we store the result in the startUps and shutDowns list.
+	 */
 	void trainingFileParser () throws FileNotFoundException
 	{
-		//List<String> startUps = new ArrayList<String>();
-		//List<String> shutDowns = new ArrayList<String>();
+
         Scanner scanner = new Scanner(new File("TNH_Training_Data.csv"));
          
         scanner.useDelimiter(",");
@@ -55,14 +67,10 @@ public class TrainingParser {
         		
         		if(firstCharacter == 'c' && lastCharacter == 'a')
         		{
-        			//System.out.println(tempStarter);
-        			//System.out.print("\n");
         			shutDowns.add(new String(tempStarter));
         		}
         		else if(firstCharacter == 'a' && lastCharacter == 'c')
         		{
-        			//System.out.println(tempStarter);
-        			//System.out.print("\n");
         			startUps.add(new String(tempStarter));
         		}
 

@@ -1,11 +1,7 @@
 package algorithm;
-//import java.io.File;
-import java.io.FileNotFoundException;
-//import java.io.IOException;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Scanner;
 
+import java.io.FileNotFoundException;
+/***************** Starting Point of the Program *********************/
 public class init {
 	public static void main(String args[]) throws FileNotFoundException  {
 		TrainingParser objTrainParser = new TrainingParser();
